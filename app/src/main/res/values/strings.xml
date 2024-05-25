@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">memory cards</string>
+    <string name="title_folders">повторение</string>
+    <string name="title_dashboard">разделы</string>
+    <string name="title_import">импортирование</string>
+    <string name="folders_add_button">+</string>
+</resources>
