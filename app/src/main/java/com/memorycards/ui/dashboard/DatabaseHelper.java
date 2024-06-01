@@ -7,7 +7,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.content.ContentValues;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -136,5 +138,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_CARDS, COLUMN_FOLDER_NAME + "=?", new String[]{folderName});
         db.close();
+    }
+
+    public List<Map<String, String>> getAllCards() {
+        List<Map<String, String>> cards = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query("cards", null, null, null, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                String front = cursor.getString(cursor.getColumnIndexOrThrow("front"));
+                String back = cursor.getString(cursor.getColumnIndexOrThrow("back"));
+                Map<String, String> card = new HashMap<>();
+                card.put("front", front);
+                card.put("back", back);
+                cards.add(card);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return cards;
     }
 }
